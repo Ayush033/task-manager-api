@@ -4,9 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class StoreTaskRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +23,9 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'priority' => [
-                'string',
-                Rule::in(['low', 'medium', 'high']),
-            ],
-            'status' => [
-                'string',
-                Rule::in(['pending', 'in_progress', 'completed']),
-            ],
-            'due_date' => 'required|date',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 }

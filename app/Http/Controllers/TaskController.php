@@ -23,6 +23,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
     $validated = $request->validated();
+    $validated['user_id'] = $request->user()->id;
 
     $task = Task::create($validated);
 
@@ -43,6 +44,7 @@ class TaskController extends Controller
     public function update(UpdateTaskController $request, string $id)
     {
         $validated = $request->validated();
+        $validated['user_id'] = $request->user()->id;
 
         $task = Task::findOrFail($id);  
         $task -> update($validated);

@@ -36,7 +36,6 @@ class UpdateTaskController extends FormRequest
                 'string',
                 Rule::in(['pending', 'in_progress', 'completed']),
             ],
-        'user_id' => 'sometimes|exists:users,id',
         ];
     }
 }
