@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateTaskController;
+use App\Http\Requests\StoreTaskRequest;
 use Illuminate\Http\Request;
 use App\Models\Task;
 
@@ -18,14 +20,9 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-    $validated = $request->validate([
-        'title' => 'required|string',
-        'priority' => 'required|string',
-        'due_date' => 'required|date',
-        'user_id' => 'required|exists:users,id', // Expecting this in Postman
-    ]);
+    $validated = $request->validated();
 
     $task = Task::create($validated);
 
@@ -43,20 +40,14 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskController $request, string $id)
     {
+        $validated = $request->validated();
+
         $task = Task::findOrFail($id);  
-
-        $validated = $request->validate([
-        'title' => 'sometimes|string',
-        'priority' => 'sometimes|string',
-        'due_date' => 'sometimes|date',
-        'status' => 'sometimes|string',
-    ]);
-
-    $task -> update($validated);
+        $task -> update($validated);
     
-    return response()->json($task);
+        return response()->json($task);
     }
 
     /**
