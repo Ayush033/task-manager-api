@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateTaskController;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
 use App\Models\Task;
 
@@ -12,9 +12,9 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Task::all();
+        return response()->json($request->user()->tasks);
     }
 
     /**
@@ -33,15 +33,21 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Request $request, string $id)
     {
-        Return response()->json($task);
+        $task = $request->user()->tasks()->find($id);
+
+        if (!$task) {
+            return response()->json(['message' => 'Task not found.'], 404);
+        }
+
+        return response()->json($task);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskController $request, string $id)
+    public function update(UpdateTaskRequest $request, string $id)
     {
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
