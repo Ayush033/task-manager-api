@@ -29,6 +29,7 @@ class StoreTaskRequest extends FormRequest
                 'string',
                 Rule::in(['low', 'medium', 'high']),
             ],
+            'description' => 'sometimes|string',
             'status' => [
                 'string',
                 Rule::in(['pending', 'in_progress', 'completed']),

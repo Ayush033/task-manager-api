@@ -15,7 +15,7 @@ class Category extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function task(): BelongsToMany
+    public function tasks(): BelongsToMany
     {
         return $this->belongsToMany(Task::class);
     }

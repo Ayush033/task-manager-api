@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'address'])]
 #[Hidden(['password', 'remember_token'])]
 
 class User extends Authenticatable
@@ -33,12 +33,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function task(): HasMany
+    public function tasks(): HasMany
         {
             return $this->hasMany(Task::class);
         }
     
-    public function category(): HasMany
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
     }

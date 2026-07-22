@@ -10,6 +10,7 @@ use App\Models\Category;
 //  controllers
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -23,8 +24,10 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::apiResource('tasks', TaskController::class);
 
-    Route::get('/category', function(){
-    return Category::all();
-});
-});
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
 
+    Route::get('categories/{name}/tasks', [CategoryController::class, 'getTasksByCategory']);
+    Route::post('categories/{category}/tasks/{task}', [CategoryController::class, 'addCategory']);
+    Route::delete('categories/{category}/tasks/{task}', [CategoryController::class, 'removeCategory']);
+});

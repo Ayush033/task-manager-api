@@ -30,6 +30,7 @@ class UpdateTaskRequest extends FormRequest
                 'string',
                 Rule::in(['low', 'medium', 'high']),
             ],
+        'description' => 'sometimes|string',
         'due_date' => 'sometimes|date',
         'status' => [
                 'sometimes',
