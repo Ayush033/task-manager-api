@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Http\Resources\TaskResource;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
@@ -13,9 +14,9 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         // Eager loading of 'categories' which API responses informative & efficient
-        $tasks = $request->user()->tasks()->with('categories')->get();
+        $tasks = $request->user()->tasks()->with('categories')->paginate(10);
 
-        return response()->json($tasks, 200);
+        return TaskResource::collection($tasks);
     }
 
     // POST /api/tasks
